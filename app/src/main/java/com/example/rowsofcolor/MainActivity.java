@@ -2,6 +2,7 @@ package com.example.rowsofcolor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -12,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private int numTextView = 12;
     private TextView[] mColorViews =new  TextView[numTextView];
     private String[] mColorNameId = {"زردخردلی", "آبی فیروزه ای", "سبز روشن", "صورتی کثیف", "بنفش روشن"
-            , "قهوه ای", "صدفی", "یاسی", "آبی آسمانی", "قرمز"
+            , "بادمجانی", "صدفی", "یاسی", "آبی آسمانی", "قرمز"
             , "نارنجی", "آبی"};
     int[] resourceId =new int[numTextView];
 
@@ -20,27 +21,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mColorViews=makeViews(numTextView);
-        resourceId=createId(numTextView);
+        resourceId=createId(mColorViews,"box_");
         findElem();
         setListener();
     }
 
-    private TextView[] makeViews(int number) {
-        TextView[] views=new TextView[number];
-        for (int i = 0; i < number; i++) {
-            views[i] = new TextView(this);
+    private <T extends View> int[] createId(T[] views, String commonPartOfId) {
+        int[] IDs = new int[views.length];
+        for (int i = 0; i < views.length; i++) {
+            int tempt = getId(commonPartOfId + i, R.id.class);
+            IDs[i] = tempt;
         }
-        return views;
-    }
-
-    private int[] createId(int number) {
-       int[] IDs=new int[number];
-        for (int i = 0; i < number; i++) {
-            int tempt = getId("box_" + i, R.id.class);
-           IDs[i] = tempt;
-        }
-      return IDs;
+        return IDs;
     }
 
     public void changeText(TextView textView) {
